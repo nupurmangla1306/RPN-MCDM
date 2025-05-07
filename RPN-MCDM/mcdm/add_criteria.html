@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New MCDM Criteria</title>
+  <link rel="stylesheet" href="./add_criteria.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="circle"><img src="../images/logo.png" alt="logo"></div>
+          <h3>RPN & MCDM based AI Implementation Framework</h3>
+        </div>
+        <div class="nav-links">
+          <a href="../contact.html">Contact Us</a>
+        </div>
+      </header>
+
+  <main>
+    <label for="newCriterion">Enter New Criterion:</label><br>
+    <input type="text" id="newCriterion" placeholder="e.g., Maintainability (M)" />
+    <button onclick="addCriterion()">Add</button>
+
+    <h3>Current Custom Criteria:</h3>
+    <ul id="customList"></ul>
+
+    <div class="btn-group">
+      <button onclick="startSurvey()">Start Survey</button>
+    </div>
+  </main>
+
+  <footer>
+    copyright@DIAT 2025
+  </footer>
+
+  <script>
+    const customCriteria = JSON.parse(sessionStorage.getItem('mcdmCustomCriteria')) || [];
+    const list = document.getElementById("customList");
+
+    function renderList() {
+      list.innerHTML = '';
+      customCriteria.forEach(c => {
+        const li = document.createElement("li");
+        li.textContent = c;
+        list.appendChild(li);
+      });
+    }
+
+    function addCriterion() {
+      const input = document.getElementById("newCriterion");
+      const value = input.value.trim();
+      if (value && !customCriteria.includes(value)) {
+        customCriteria.push(value);
+        sessionStorage.setItem('mcdmCustomCriteria', JSON.stringify(customCriteria));
+        renderList();
+        input.value = '';
+      }
+    }
+
+    function startSurvey() {
+      window.location.href = 'start_survey_mcdm.html';
+    }
+
+    renderList();
+  </script>
+</body>
+</html>

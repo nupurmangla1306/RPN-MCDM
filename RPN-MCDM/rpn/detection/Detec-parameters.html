@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Values for Selected Parameters</title>
+  <link rel="stylesheet" href="Detec-parameters.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="circle"><img src="../logo.png" alt="logo"></div>
+    <h3>RPN & MCDM based AI Implementation Framework</h3>
+  </div>
+    <div class="nav-links">
+      <a href="../contact.html">Contact Us</a>
+    </div>
+  </header>
+<br>
+<br>
+
+  <div class="main-content">
+    <h4 class="parameter-text">Add the values for the selected parameters:</h4>
+
+    <form id="paramForm">
+      <div class="value-table" id="valueTable">
+        <!-- JavaScript will dynamically create the input fields here -->
+      </div>
+
+      <div class="next-button">
+        <button type="button" class="btn next-btn" onclick="submitValues()">Submit ➡️</button>
+      </div>
+    </form>
+  </div>
+  <br>
+<br>
+<br>
+<br>
+
+  <footer>
+    copyright@DIAT 2025
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const params = JSON.parse(localStorage.getItem("selectedDetectionParams")) || [];
+      localStorage.setItem("currentCategory", "detection");
+      const valueTable = document.getElementById("valueTable");
+
+      if (params.length === 0) {
+        valueTable.innerHTML = "<p>No parameters selected. Please go back and select parameters.</p>";
+        return;
+      }
+
+      params.forEach(param => {
+        const box = document.createElement("div");
+        box.classList.add("value-box");
+        box.innerHTML = `
+          <div class="param-name">${param}</div>
+          <input type="number" name="${param}" placeholder="Enter the value for '${param}'" required>
+        `;
+        valueTable.appendChild(box);
+      });
+    });
+
+    function submitValues() {
+      const inputs = document.querySelectorAll('input[type="number"]');
+      let recentEntry = [];
+      let allFilled = true;
+
+      inputs.forEach(input => {
+        if (input.value === "") {
+          allFilled = false;
+        }
+        recentEntry.push({ parameter: input.name, value: input.value });
+      });
+
+      if (!allFilled) {
+        alert("Please fill all values before submitting.");
+        return;
+      }
+
+      localStorage.setItem("recentEntry", JSON.stringify(recentEntry));
+      localStorage.removeItem("selectedDetectionParams");
+      window.location.href = "Detec-result.html";
+    }
+  </script>
+  </body>
+  </html>

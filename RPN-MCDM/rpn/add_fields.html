@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Fields - RPN </title>
+  <link rel="stylesheet" href="./add_fields.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <div class="circle"><img src="../images/logo.png" alt="logo"></div>
+      <h3>RPN & MCDM based AI Implementation Framework</h3>
+    </div>
+    <div class="nav-links">
+      <a href="./contact.html">Contact Us</a>
+    </div>
+  </header>
+<br>
+
+<div class="main-content">
+  <h3 class="parameter-text">ADD NEW PARAMETERS TO CHECKLIST</h3>
+
+  <form id="addFieldForm" class="contact-form">
+    <label for="newParam">Enter Parameter Name:</label>
+    <input type="text" id="newParam" name="newParam" placeholder="Enter parameter name" required>
+
+    <label for="paramCategory">Select Category:</label>
+    <select id="paramCategory" name="paramCategory" required>
+      <option value="">Select</option>
+      <option value="severity">Severity</option>
+      <option value="occurrence">Occurrence</option>
+      <option value="detection">Detection</option>
+    </select>
+
+    <button type="button" class="btn next-btn" onclick="addParameter()">Add Parameter</button>
+  </form>
+
+  <div class="added-params">
+    <h3>Parameters Added:</h3>
+    <ul id="paramList"></ul>
+  </div>
+</div>
+  <div class="start-survey-btn">
+    <a href="start_survey.html"><button class="btn survey-btn">Start Survey Now ➡️</button></a>
+  </div>
+  
+<br>
+<br>
+
+  <footer>
+    copyright@DIAT 2025
+  </footer>
+
+  <script>
+    // Initialize checklist from localStorage or set empty
+    let checklist = JSON.parse(localStorage.getItem("checklist")) || {
+      severity: [],
+      occurrence: [],
+      detection: []
+    };
+  
+    function addParameter() {
+      const name = document.getElementById('newParam').value.trim();
+      const category = document.getElementById('paramCategory').value;
+  
+      if (!name || !category) {
+        alert('Please enter parameter name and category.');
+        return;
+      }
+  
+      // Avoid duplicate entries
+      if (checklist[category].includes(name)) {
+        alert("This parameter already exists in the selected category.");
+        return;
+      }
+  
+      checklist[category].push(name);
+      localStorage.setItem("checklist", JSON.stringify(checklist));
+  
+      alert(`Parameter "${name}" added to ${category.toUpperCase()} successfully!`);
+      document.getElementById('addFieldForm').reset();
+      displayAddedParameters();
+    }
+  
+    function deleteParameter(category, index) {
+      checklist[category].splice(index, 1);
+      localStorage.setItem("checklist", JSON.stringify(checklist));
+      displayAddedParameters();
+    }
+  
+    function displayAddedParameters() {
+      const listElement = document.getElementById('paramList');
+      listElement.innerHTML = "";
+  
+      for (const category in checklist) {
+        if (checklist[category].length > 0) {
+          checklist[category].forEach((param, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              <strong>${category.toUpperCase()}:</strong> ${param}
+              <button onclick="deleteParameter('${category}', ${index})" class="delete-btn">🗑️</button>
+            `;
+            listElement.appendChild(li);
+          });
+        }
+      }
+    }
+  
+    document.addEventListener("DOMContentLoaded", displayAddedParameters);
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detection Parameters</title>
+  <link rel="stylesheet" href="detection.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <div class="circle"><img src="../logo.png" alt="logo"></div>
+      <h3>RPN & MCDM based AI Implementation Framework</h3>
+    </div>
+    <div class="nav-links">
+      <a href="../contact.html">Contact Us</a>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <h2 class="parameter-text">Select Detection Parameters:</h2>
+
+    <form id="detectionForm" onsubmit="return false;">
+      <div class="select-all-container">
+        <button id="selectAllBtn" type="button">Select All</button>
+      </div>
+      
+
+      <div class="parameter-list" id="paramList">
+        <!-- Parameters will be dynamically loaded here -->
+      </div>
+
+      <div class="next-button">
+        <button type="button" class="btn next-btn" onclick="saveSelectedDetection()">Next ➡️</button>
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    copyright@DIAT 2025
+  </footer>
+
+  <script>
+    const defaultDetectionParams = [
+      "Inspect fuselage for cracks",
+      "Check skin for scratches or dents",
+      "Inspect rivets and joints",
+      "Verify panel securement",
+      "Inspect external antennas",
+      "Canopy surface cracks or scratches",
+      "Inspect seals for wear",
+      "Check cockpit displays for clarity",
+      "Verify cockpit controls",
+      "Inspect ejection seat mechanisms",
+      "Inspect leading-edge surfaces",
+      "Check ailerons for cracks",
+      "Inspect flaps for wear",
+      "Verify wing-tip light functionality",
+      "Check tire pressure",
+      "Check tread wear",
+      "Inspect brake assembly for leaks",
+      "Verify landing gear struts",
+      "Inspect wheel hub integrity",
+      "Inspect engine inlet for FOD",
+      "Check for fluid leaks (oil or fuel)",
+      "Inspect nacelle panels",
+      "Check weapon mounts for damage",
+      "Verify release system mechanisms",
+      "Inspect pitot-static tube",
+      "Verify external light operation",
+      "Inspect electrical harnesses",
+      "Check hydraulic lines for leaks",
+      "Inspect fuel tank caps or seals"
+    ];
+
+    function loadDetectionParameters() {
+      const paramListDiv = document.getElementById('paramList');
+      paramListDiv.innerHTML = "";
+
+      // Load from localStorage (if user has added more)
+      const checklist = JSON.parse(localStorage.getItem("checklist")) || { severity: [], occurrence: [], detection: [] };
+      const userAdded = checklist.detection;
+
+      // Merge default + user-added (avoiding duplicates)
+      const allParams = [...new Set([...defaultDetectionParams, ...userAdded])];
+
+      // Create checkbox list
+      allParams.forEach(param => {
+        const label = document.createElement('label');
+        label.classList.add('param-item');
+        label.innerHTML = `<input type="checkbox" class="activity-checkbox" name="param" value="${param}"> ${param}`;
+        paramListDiv.appendChild(label);
+      });
+    }
+
+    function saveSelectedDetection() {
+      const selected = [];
+      document.querySelectorAll('input[name="param"]:checked').forEach(cb => {
+        selected.push(cb.value);
+      });
+
+      if (selected.length === 0) {
+        alert("Please select at least one parameter.");
+        return;
+      }
+
+      localStorage.setItem("selectedDetectionParams", JSON.stringify(selected));
+      window.location.href = "Detec-parameters.html"; // Redirect to value-adding page
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadDetectionParameters();
+
+      document.getElementById("selectAllBtn").addEventListener("click", () => {
+  document.querySelectorAll(".activity-checkbox").forEach(cb => cb.checked = true);
+});
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCDM Criteria Scoring</title>
+  <link rel="stylesheet" href="./input_score.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="circle"><img src="../images/logo.png" alt="logo" /></div>
+      <h3>RPN & MCDM based AI Implementation Framework</h3>
+    </div>
+    <div class="nav-links">
+      <a href="../contact.html">Contact Us</a>
+    </div>
+  </header>
+
+  <main>
+    <form id="scoreForm">
+      <div id="loadingMsg" style="text-align: center; font-weight: bold; margin-top: 20px;">
+        ⏳ Preparing scoring table...
+      </div>
+
+      <table id="scoreTable">
+        <thead>
+          <tr>
+            <th>Activity</th>
+            <th>Criterion</th>
+            <th>Weight (%)</th>
+            <th>Enter Score (1-10)</th>
+          </tr>
+        </thead>
+        <tbody id="scoreBody"></tbody>
+      </table>
+
+      <button class="btn" type="submit">Calculate MCDM</button>
+      <br /><br />
+      <a href="../home.html"><button class="btn" type="button">Back to Home</button></a>
+    </form>
+  </main>
+
+  <footer>copyright@DIAT 2025</footer>
+
+  <script>
+    const top5Activities = JSON.parse(sessionStorage.getItem("top5Activities")) || [];
+    const criteriaWeights = JSON.parse(sessionStorage.getItem("mcdmWeights")) || {};
+    const body = document.getElementById("scoreBody");
+    const loadingDiv = document.getElementById("loadingMsg");
+
+    if (top5Activities.length === 0 || Object.keys(criteriaWeights).length === 0) {
+      body.innerHTML = `<tr><td colspan="4" style="color: red;">Missing RPN or criteria data. Please restart the survey.</td></tr>`;
+      loadingDiv.style.display = "none";
+    } else {
+      // Populate scoring table
+      top5Activities.forEach(activity => {
+        for (const [criterion, weight] of Object.entries(criteriaWeights)) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${activity}</td>
+            <td>${criterion}</td>
+            <td>${weight}%</td>
+            <td>
+              <input type="number" min="1" max="10" name="${activity}|${criterion}" required />
+            </td>
+          `;
+          body.appendChild(row);
+        }
+      });
+
+      loadingDiv.style.display = "none";
+    }
+
+    document.getElementById("scoreForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const scores = {};
+      const outputRows = [];
+
+      for (const [key, value] of formData.entries()) {
+        const [activity, criterion] = key.split("|");
+        if (!scores[activity]) scores[activity] = {};
+        scores[activity][criterion] = parseFloat(value);
+      }
+
+      sessionStorage.setItem("mcdmResults", JSON.stringify(scores));
+
+      top5Activities.forEach(activity => {
+        const row = [activity];
+        let total = 0;
+
+        for (const [criterion, weight] of Object.entries(criteriaWeights)) {
+          const score = scores[activity][criterion] || 0;
+          const ws = +(score * (weight / 100)).toFixed(2);
+          total += ws;
+          row.push(score, ws);
+        }
+
+        row.push(total.toFixed(2)); // total
+        row.push(0); // rank placeholder
+        outputRows.push(row);
+      });
+
+      // Push to Google Sheet
+      fetch("https://script.google.com/macros/s/AKfycby1LPeB0r2JOvFqr0Y3pRXfnqQtOpkQNtnlAspCkPCjXidKQWzHx6T61iFG05wXykxY/exec", {
+  method: "POST",
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    type: "mcdm_results",
+    data: outputRows
+  })
+});
+
+// ⚠️ No response handling possible with no-cors
+window.location.href = "mcdm_result.html";
+    });
+
+  </script>
+</body>
+</html>

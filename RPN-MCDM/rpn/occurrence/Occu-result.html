@@ -1,0 +1,76 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Severity Result - RPN Framework</title>
+  <link rel="stylesheet" href="Occu-result.css">
+</head>
+<body>
+  <h2 class="parameter-text">Your Submitted Occurrence Values</h2>
+  <div id="loadingMsg">⚠️ No values submitted.</div>
+  <div id="resultTableContainer" style="display:none;">
+    <table class="result-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Entered Value</th>
+          <th>Average (from Sheet)</th>
+        </tr>
+      </thead>
+      <tbody id="resultTable"></tbody>
+    </table>
+  </div>
+  <div class="next-button" style="display:none;" id="nextBtnContainer">
+    <a href="../detection/detection.html"><button class="btn next-btn">Next ➡️</button></a>
+  </div>
+
+  <script>
+    const recentData = JSON.parse(localStorage.getItem("recentEntry")) || [];
+    const table      = document.getElementById("resultTable");
+    const msg        = document.getElementById("loadingMsg");
+    const container  = document.getElementById("resultTableContainer");
+    const nextBtn    = document.getElementById("nextBtnContainer");
+  
+    if (!recentData.length) {
+      msg.innerText = "⚠️ No values submitted.";
+    } else {
+      // build the payload as a simple { param: value, … } map
+      const occurrenceValues = recentData.reduce((o, e) => {
+        o[e.parameter] = parseFloat(e.value);
+        return o;
+      }, {});
+  
+      // ←— adjust this path if your PHP lives elsewhere!
+      fetch("occurrence_update.php", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(occurrenceValues)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error(res.statusText);
+        return res.json();
+      })
+      .then(data => {
+        const averages = data.averages || {};
+        recentData.forEach(entry => {
+          const avg = averages[entry.parameter] ?? "N/A";
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${entry.parameter}</td>
+            <td>${entry.value}</td>
+            <td>${avg}</td>
+          `;
+          table.appendChild(row);
+        });
+        msg.style.display        = "none";
+        container.style.display  = "block";
+        nextBtn.style.display    = "block";
+        localStorage.removeItem("recentEntry");
+      })
+      .catch(err => {
+        console.error("Fetch error:", err);
+        msg.innerText = "❌ Failed to load results.";
+      });
+    }
+  </script>
+
+</body></html>

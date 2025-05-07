@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCDM - Add Weights</title>
+  <link rel="stylesheet" href="./add_percentages.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <div class="circle"><img src="../images/logo.png" alt="logo"></div>
+      <h3>RPN & MCDM based AI Implementation Framework</h3>
+    </div>
+    <div class="nav-links">
+      <a href="../contact.html">Contact Us</a>
+    </div>
+  </header>
+  <br>
+  <br>
+
+  <main>
+    <h2>Enter Weight Percentages for Selected Criteria</h2>
+    <div id="criteriaWeights"></div>
+    <button class="next-btn" onclick="submitMCDM()">Next</button>
+  </main>
+
+  <footer>
+    copyright@DIAT 2025
+  </footer>
+
+  <script>
+   const top5 = JSON.parse(localStorage.getItem("top5Activities")) || [];
+    const mcdmInputs = document.getElementById("mcdmInputs");
+
+    top5.forEach(activity => {
+      mcdmInputs.innerHTML += `
+        <div>
+          ${activity}: <input type="number" data-activity="${activity}" min="1" max="10">
+        </div>`;
+    });
+
+    function submitMCDM() {
+      const mcdmData = {};
+      document.querySelectorAll('input[data-activity]').forEach(input => {
+        const activity = input.dataset.activity;
+        const value = parseInt(input.value);
+        if (!isNaN(value)) {
+          mcdmData[activity] = value;
+        }
+      });
+
+      localStorage.setItem("mcdmData", JSON.stringify(mcdmData));
+      window.location.href = "mcdm_result.html";
+    }
+  </script>
+</body>
+</html>

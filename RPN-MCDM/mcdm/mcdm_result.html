@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MCDM Results</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f3f5e7;
+      padding: 20px;
+    }
+
+    header {
+      background-color: #d8edc4;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .circle, .circle img {
+      width: 50px;
+      height: 50px;
+      background-color: #d2d2d2;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: black;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #555;
+    }
+
+    h2, h3 {
+      margin: 20px 0 10px;
+      color: #333;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 3px;
+      margin: 2px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #fbb347;
+      color: black;
+      font-size: 16px;
+      padding: 10px 30px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e39d2d;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      background-color: #fce6e6;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 12px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .nav-links {
+        margin-top: 15px;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="circle"><img src="../images/logo.png" alt="logo" /></div>
+      <h3>RPN & MCDM based AI implementation Framework</h3>
+    </div>
+    <div class="nav-links">
+      <a href="../contact.html">Contact Us</a>
+    </div>
+  </header>
+
+  <h2>MCDM Evaluation Input</h2>
+
+  <div>
+    <h3>Enter Parameter Weights (%)</h3>
+    <div id="weightsForm">
+      C: <input type="number" id="weightC" value="15">
+      T: <input type="number" id="weightT" value="15">
+      A: <input type="number" id="weightA" value="15">
+      R: <input type="number" id="weightR" value="15">
+      H: <input type="number" id="weightH" value="20">
+      IF: <input type="number" id="weightIF" value="10">
+      AD: <input type="number" id="weightAD" value="10">
+    </div>
+  </div>
+
+  <br>
+
+  <div>
+    <h3>Enter Scores for Top 5 Activities</h3>
+    <div id="activitiesForm"></div>
+  </div>
+
+  <button onclick="calculateMCDM()">Calculate</button>
+
+  <h3>MCDM Results</h3>
+  <table id="resultTable">
+    <thead>
+      <tr>
+        <th rowspan="2">Activity</th>
+        <th colspan="2">C</th>
+        <th colspan="2">T</th>
+        <th colspan="2">A</th>
+        <th colspan="2">R</th>
+        <th colspan="2">H</th>
+        <th colspan="2">IF</th>
+        <th colspan="2">AD</th>
+        <th rowspan="2">Total</th>
+        <th rowspan="2">Rank</th>
+      </tr>
+      <tr>
+        <th>Score</th><th>Weighted</th>
+        <th>Score</th><th>Weighted</th>
+        <th>Score</th><th>Weighted</th>
+        <th>Score</th><th>Weighted</th>
+        <th>Score</th><th>Weighted</th>
+        <th>Score</th><th>Weighted</th>
+        <th>Score</th><th>Weighted</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <footer>
+    copyright@DIAT 2025
+  </footer>
+
+  <script>
+    const parameters = ["C", "T", "A", "R", "H", "IF", "AD"];
+
+    function fetchTop5Activities() {
+      const top5Json = localStorage.getItem("top5A");
+      if (!top5Json) {
+        alert("No data found in localStorage for 'top5A'!");
+        return [];
+      }
+      try {
+        const activities = JSON.parse(top5Json);
+        const top5 = activities.slice(0, 5).map((activity, index) => ({
+          Activity: activity,
+          Rank: index + 1
+        }));
+        sessionStorage.setItem("top5Activities", JSON.stringify(top5));
+        return top5;
+      } catch (error) {
+        console.error("Failed to parse 'top5A' from localStorage:", error);
+        return [];
+      }
+    }
+
+    async function initMCDMPage() {
+      const topActivities = await fetchTop5Activities();
+      if (topActivities.length === 0) {
+        document.body.innerHTML = "<p style='color:red;'>No top‑5 activities found.</p>";
+        throw new Error("Top-5 activities not available");
+      }
+
+      const activitiesForm = document.getElementById("activitiesForm");
+      topActivities.forEach((activityObj, idx) => {
+        const div = document.createElement("div");
+        div.style.marginBottom = "10px";
+        div.innerHTML = `<strong>${activityObj.Activity}</strong><br>` + parameters.map(p =>
+          `${p}: <input type="number" id="score-${idx}-${p}" min="0" max="10" value="5">`
+        ).join(" ");
+        activitiesForm.appendChild(div);
+      });
+
+      window.calculateMCDM = function () {
+        const weights = {};
+        parameters.forEach(p => {
+          weights[p] = parseFloat(document.getElementById(`weight${p}`).value) || 0;
+        });
+
+        const results = topActivities.map((activityObj, idx) => {
+          let total = 0;
+          const rawScores = {};
+          const weightedScores = {};
+
+          parameters.forEach(p => {
+            const val = parseFloat(document.getElementById(`score-${idx}-${p}`).value) || 0;
+            rawScores[p] = val;
+            const weighted = +(val * weights[p] / 100).toFixed(2);
+            weightedScores[p] = weighted;
+            total += weighted;
+          });
+
+          return {
+            activity: activityObj.Activity,
+            rawScores,
+            weightedScores,
+            total
+          };
+        });
+
+        results.sort((a, b) => b.total - a.total).forEach((r, i) => r.rank = i + 1);
+
+        const tbody = document.querySelector("#resultTable tbody");
+        tbody.innerHTML = "";
+        results.forEach(r => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${r.activity}</td>
+            ${parameters.map(p => `<td>${r.rawScores[p]}</td><td>${r.weightedScores[p]}</td>`).join("")}
+            <td>${r.total.toFixed(2)}</td>
+            <td>${r.rank}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      };
+    }
+
+    initMCDMPage();
+  </script>
+</body>
+</html>

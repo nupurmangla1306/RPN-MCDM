@@ -1,0 +1,94 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RPN Calculation</title>
+  <link rel="stylesheet" href="final_outcome.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+        <div class="circle"><img src="../images/logo.png" alt="logo"></div>
+      <h3>RPN & MCDM based AI Implementation Framework</h3>
+    </div>
+    <div class="nav-links">
+      <a href="../contact.html">Contact Us</a>
+    </div>
+  </header>
+<br>
+<br>
+
+  <main>
+    <h3>Final RPN Calculation and Ranking</h3>
+    <p id="loadingMsg" style="text-align:center;">⏳ Calculating RPN...</p>
+    <br>
+    <br>
+    <table id="rpnTable">
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th>Severity</th>
+          <th>Occurrence</th>
+          <th>Detection</th>
+          <th>RPN</th>
+          <th>Rank</th>
+        </tr>
+      </thead>
+      <tbody id="rpnBody"></tbody>
+    </table>
+<!-- ADD THIS LINE -->
+     <p id="storageMsg" style="text-align:center; font-weight:bold; color:green;"></p>
+    <div class="next-button" id="nextBtnContainer">
+      <a href="../rpn/start_survey.html"><button class="btn next-btn">New RPN Survey</button></a>
+    </div>
+    <br>
+
+    <div class="next-button" id="nextBtnContainer">
+      <a href="../mcdm/mcdm.html"><button class="btn next-btn">MCDM Survey</button></a>
+    </div>
+  </main>
+
+  <script>
+    const loading = document.getElementById("loadingMsg");
+    const tbody   = document.getElementById("rpnBody");
+  
+    fetch("final_update.php")
+      .then(res => {
+        if (!res.ok) throw new Error(res.statusText);
+        return res.json();
+      })
+      .then(data => {
+        data.results.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.activity}</td>
+            <td>${row.severity}</td>
+            <td>${row.occurrence}</td>
+            <td>${row.detection}</td>
+            <td>${row.rpn}</td>
+            <td>${row.rank}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+        loading.style.display = "none";
+        const top5 = data.results
+         .sort((a, b) => a.rank - b.rank)
+         .slice(0, 5)
+         .map(row => row.activity);
+
+localStorage.setItem("top5A", JSON.stringify(top5));
+console.log("Top 5 RPN activities stored in localStorage as 'top5A':", top5);
+
+const storageMsg = document.getElementById("storageMsg");
+storageMsg.innerText = `✅ Top 5 activities stored in localStorage: ${top5.join(", ")}`;
+      })
+      .catch(err => {
+        console.error("Error loading RPN:", err);
+        loading.innerText = "❌ Failed to calculate RPN.";
+      });
+    
+  </script>
+  
+</body>
+</html>

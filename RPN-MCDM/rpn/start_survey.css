@@ -1,0 +1,111 @@
+/* --------- Shared Styling --------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f5e7;
+  }
+  
+  header {
+    background-color: #d8edc4;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .circle, .circle img {
+    width: 50px;
+    height: 50px;
+    background-color: #d2d2d2;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .logo h3 {
+    font-size: 24px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #555;
+  }
+
+/* -------- Start Survey Page Styling -------- */
+.survey-options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .survey-choice-btn {
+    background-color: #fbb347;
+    color: black;
+    font-size: 22px;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .survey-choice-btn:hover {
+    background-color: #e39d2d;
+    transform: scale(1.05);
+  }
+
+  h4{
+    text-align: center;
+  }
+
+  /* Footer Styling */
+  footer {
+    background-color: #fce6e6;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 12px;
+  }
+
+  
+  /* -------- Responsive Styling -------- */
+  @media (max-width: 768px) {
+    .survey-options {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .survey-choice-btn {
+      width: 60%;
+      font-size: 20px;
+      padding: 12px 40px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .survey-choice-btn {
+      width: 80%;
+      font-size: 18px;
+      padding: 10px 30px;
+    }
+  }
+  

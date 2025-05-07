@@ -1,0 +1,279 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f5e7;
+  }
+  
+  /* Header Styling */
+  header {
+    background-color: #d8edc4;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .circle, .circle img {
+    width: 50px;
+    height: 50px;
+    background-color: #d2d2d2;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #555;
+  }
+
+/* Parameter List Styling */
+.parameter-text {
+    font-size: 22px;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  
+  .parameter-list {
+    width: 60%;
+    margin: 0 auto;
+    background-color: #f9f6fd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .param-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #e8dcf8;
+    margin: 10px 0;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .param-item input[type="checkbox"] {
+    transform: scale(1.4);
+    accent-color: #6c5ce7;
+  }
+  
+  .next-button {
+    text-align: right;
+    margin-top: 30px;
+  }
+  
+  .next-btn {
+    background-color: #6c5ce7;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+  }
+  
+  .next-btn:hover {
+    background-color: #5942d4;
+  }
+
+  .select-all-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 250px;
+    margin-bottom: 10px;
+  }
+  
+  #selectAllBtn {
+    background-color: #7d5fff;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+  }
+  
+  #selectAllBtn:hover {
+    background-color: #5a3dff;
+  }
+  
+  /* Footer Styling */
+  footer {
+    background-color: #fce6e6;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 12px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .parameter-list {
+      width: 80%;
+    }
+  
+    .param-item {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+        .logo h1 {
+          font-size: 22px;
+        }
+        
+        .circle {
+          width: 40px;
+          height: 40px;
+        }
+    .parameter-text {
+      font-size: 18px;
+    }
+  
+    .param-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .next-button {
+      text-align: center;
+    }
+  
+    .next-btn {
+      width: 100%;
+    }
+  }
+  
+  /* -------- Parameter List Styling -------- */
+.parameter-text {
+  font-size: 22px;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.parameter-list {
+  width: 60%;
+  margin: 0 auto;
+  background-color: #f9f6f0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.param-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e8dcf8;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.param-item input[type="checkbox"] {
+  transform: scale(1.4);
+  accent-color: #6c5ce7;
+}
+
+/* -------- Next Button Styling -------- */
+.next-button {
+  text-align: right;
+  margin-top: 30px;
+}
+
+.next-btn {
+  background-color: #6c5ce7;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.next-btn:hover {
+  background-color: #5942d4;
+  transform: scale(1.05);
+}
+
+/* -------- Responsive Styling -------- */
+@media (max-width: 768px) {
+  .parameter-list {
+    width: 80%;
+  }
+
+  .param-item {
+    font-size: 16px;
+  }
+
+  .next-btn {
+    width: 60%;
+    align-self: center;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .parameter-text {
+    font-size: 18px;
+  }
+
+  .parameter-list {
+    width: 90%;
+  }
+
+  .param-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .next-btn {
+    width: 100%;
+  }
+}

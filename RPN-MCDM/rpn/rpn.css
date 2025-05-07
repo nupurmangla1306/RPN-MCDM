@@ -1,0 +1,190 @@
+/* --------- Shared Styling --------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f5e7;
+  }
+  
+  header {
+    background-color: #d8edc4;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .circle, .circle img {
+    width: 50px;
+    height: 50px;
+    background-color: #d2d2d2;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .logo h1 {
+    font-size: 24px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #555;
+  }
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+  }
+  
+  .action-btn {
+    background-color: #fbb347;
+    color: black;
+    font-size: 22px;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .action-btn:hover {
+    background-color: #e39d2d;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .action-btn {
+      width: 80%;
+    }
+  }
+  
+  
+  /* --------- Page Specific Styling --------- */
+  .main-content {
+    text-align: center;
+    margin-top: 60px;
+  }
+  
+  .top-button .rpn-btn {
+    background-color: #f77d3e;
+    color: black;
+    font-size: 20px;
+    padding: 10px 50px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    cursor: pointer;
+    margin-bottom: 40px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .top-button .rpn-btn:hover {
+    background-color: #e86525;
+  }
+  
+  .parameter-text {
+    font-size: 22px;
+    margin-bottom: 30px;
+  }
+  
+  .parameter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .param-btn {
+    background-color: #fdd29e;
+    color: black;
+    font-size: 20px;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .param-btn:hover {
+    background-color: #e6b576;
+  }
+  
+  /* --------- Footer --------- */
+  footer {
+    background-color: #fce6e6;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 12px;
+    position: relative;
+    margin-top: 80px;
+  }
+  
+  /* --------- Responsive Styling --------- */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .nav-links {
+      margin-top: 15px;
+    }
+  
+    .parameter-buttons {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .btn {
+      width: 60%;
+      margin: 0 auto;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .logo h1 {
+      font-size: 20px;
+      text-align: center;
+    }
+  
+    .circle {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .parameter-text {
+      font-size: 18px;
+    }
+  
+    .btn {
+      font-size: 18px;
+      padding: 8px 30px;
+    }
+  }
+  

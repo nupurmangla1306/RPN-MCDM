@@ -1,0 +1,226 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f5e7;
+  }
+  
+  /* Header Styling */
+  header {
+    background-color: #d8edc4;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .circle, .circle img {
+    width: 50px;
+    height: 50px;
+    background-color: #d2d2d2;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #555;
+  }
+  .next-button {
+    text-align: right;
+    margin-top: 30px;
+  }
+  
+  .next-btn {
+    background-color: #6c5ce7;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+  }
+  
+  .next-btn:hover {
+    background-color: #5942d4;
+  }
+  #loadingMsg::after {
+    content: ' ';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-left: 8px;
+    border: 2px solid #555;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+/* -------- Final Outcome Page Styling -------- */
+.parameter-text {
+    font-size: 28px;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .result-table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.15);
+    background-color: #f9f6f0;
+  }
+  
+  .result-table th,
+  .result-table td {
+    border: 1px solid #ccc;
+    padding: 14px 22px;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .result-table th {
+    background-color: #d8edc4;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .result-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .result-table tr:hover {
+    background-color: #e6f7ff;
+    transition: background-color 0.3s ease;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  th {
+    background-color: #ffe9e9;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  .highlight {
+    background-color: #d8f8d8;
+    font-weight: bold;
+  }
+  
+  /* Highlight Top 3 Ranks */
+  .result-table td:last-child {
+    font-weight: bold;
+  }
+  
+  .result-table tr td:nth-child(6):contains("1") {
+    background-color: #ffd700; /* Gold */
+  }
+  .result-table tr td:nth-child(6):contains("2") {
+    background-color: #c0c0c0; /* Silver */
+  }
+  .result-table tr td:nth-child(6):contains("3") {
+    background-color: #cd7f32; /* Bronze */
+  }
+  
+  /* Fallback for Top 3 Ranks using JS (if needed) */
+  .top-rank-1 {
+    background-color: #ffd700 !important;
+  }
+  .top-rank-2 {
+    background-color: #c0c0c0 !important;
+  }
+  .top-rank-3 {
+    background-color: #cd7f32 !important;
+  }
+  
+  
+  /* Footer Styling */
+  footer {
+    background-color: #fce6e6;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 12px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .result-table th,
+    .result-table td {
+      font-size: 16px;
+      padding: 10px;
+    }
+    .logo h1 {
+        font-size: 22px;
+      }
+      
+      .circle {
+        width: 40px;
+        height: 40px;
+      }
+    .next-btn {
+      width: 60%;
+      font-size: 18px;
+      padding: 10px 30px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .parameter-text {
+      font-size: 24px;
+    }
+  
+    .result-table {
+      width: 95%;
+    }
+  
+    .next-btn {
+      width: 80%;
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+  }
+  

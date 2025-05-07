@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MCDM - Select Criteria</title>
+  <link rel="stylesheet" href="./start_survey.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <div class="circle"><img src="../images/logo.png" alt="logo"></div>
+      <h3>RPN & MCDM based AI Implementation Framework</h3>
+    </div>
+    <div class="nav-links">
+      <a href="../contact.html">Contact Us</a>
+    </div>
+  </header>
+  <br><br>
+
+  <main>
+    <h2>Select the MCDM Criteria:</h2>
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="selectAll" onchange="toggleAll(this)"> <strong>Select All</strong></label>
+      <hr>
+      <label><input type="checkbox" value="Complexity (C)"> Complexity (C)</label>
+      <label><input type="checkbox" value="Time Consumption (T)"> Time Consumption (T)</label>
+      <label><input type="checkbox" value="Accuracy Requirements (A)"> Accuracy Requirements (A)</label>
+      <label><input type="checkbox" value="Repetitiveness (R)"> Repetitiveness (R)</label>
+      <label><input type="checkbox" value="Risk of Human Error (H)"> Risk of Human Error (H)</label>
+      <label><input type="checkbox" value="Impact of Failure (IF)"> Impact of Failure (IF)</label>
+      <label><input type="checkbox" value="Availability of Data (AD)"> Availability of Data (AD)</label>
+    </div>
+    <button class="btn" onclick="submitCriteria()">Next</button>
+  </main>
+
+  <footer>
+    copyright@DIAT 2025
+  </footer>
+
+  <script>
+    function toggleAll(source) {
+      const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:not(#selectAll)');
+      checkboxes.forEach(cb => cb.checked = source.checked);
+    }
+
+    function submitCriteria() {
+      const selected = [];
+      const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:not(#selectAll)');
+      checkboxes.forEach(cb => {
+        if (cb.checked) selected.push(cb.value);
+      });
+
+      if (selected.length === 0) {
+        alert("Please select at least one criterion.");
+        return;
+      }
+
+      async function loadTop5ActivitiesFromCSV() {
+    const response = await fetch('rpn/final_outcome.csv');
+    const csvText = await response.text();
+
+    const rows = csvText.trim().split('\n');
+
+    // Select rows from 2 to 6 and from the first column (index 0)
+    const selectedRows = rows.slice(1, 6).map(row => row.split(',')[0].trim());
+
+    // Store the selected activities in sessionStorage
+    sessionStorage.setItem("top5Activities", JSON.stringify(selectedRows));
+    console.log("Top 5 activities saved:", selectedRows);
+  }
+
+  // Call the function to load and process the CSV data
+  loadTop5ActivitiesFromCSV();
+
+
+      // ✅ Save to sessionStorage
+      sessionStorage.setItem('mcdmSelectedCriteria', JSON.stringify(selected));
+
+      // ✅ Redirect to weight input page
+      window.location.href = 'add_percentages.html';
+    }
+  </script>
+</body>
+</html>

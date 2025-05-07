@@ -1,0 +1,140 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f5e7;
+  }
+  
+  /* Header Styling */
+  header {
+    background-color: #d8edc4;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .circle, .circle img {
+    width: 50px;
+    height: 50px;
+    background-color: #d2d2d2;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #555;
+  }
+  
+  /* Slideshow Styling */
+  .gallery-container {
+    text-align: center;
+    margin: 60px auto;
+  }
+  
+  .slideshow {
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+  }
+  
+  .slides {
+    display: none;
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  /* Button Styling */
+  .button-group {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .btn {
+    background-color: #fbb347;
+    color: black;
+    font-size: 20px;
+    padding: 10px 40px;
+    margin: 0 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #e39d2d;
+  }
+  
+  /* Footer Styling */
+  footer {
+    background-color: #fce6e6;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 12px;
+    margin-bottom: 0%;
+  }
+  
+  /* ------------------- Responsive Styling ------------------- */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .nav-links {
+      margin-top: 15px;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .button-group {
+      flex-direction: column;
+    }
+    
+    .btn {
+      margin: 10px 0;
+      width: 60%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .logo h3 {
+      font-size: 22px;
+    }
+    
+    .circle {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .btn {
+      font-size: 18px;
+      padding: 8px 30px;
+    }
+  }
+  

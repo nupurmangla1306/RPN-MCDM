@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Severity Result - RPN Framework</title>
+  <link rel="stylesheet" href="Sever-result.css">
+</head>
+<body>
+  <h2 class="parameter-text">Your Submitted Severity Values</h2>
+  <div id="loadingMsg">⏳ Processing your values...</div>
+
+  <div id="resultTableContainer">
+    <table class="result-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Entered Value</th>
+        </tr>
+      </thead>
+      <tbody id="resultTable"></tbody>
+    </table>
+  </div>
+
+  <div class="next-button" id="nextBtnContainer">
+    <a href="../occurrence/occurrence.html">
+      <button class="btn next-btn">Next ➡️</button>
+    </a>
+  </div>
+
+  <script>
+    const recentData = JSON.parse(localStorage.getItem("recentEntry")) || [];
+    const table      = document.getElementById("resultTable");
+    const loadingMsg = document.getElementById("loadingMsg");
+  
+    if (!recentData.length) {
+      loadingMsg.innerText = "⚠️ No values submitted.";
+    } else {
+      // Build payload: { "Param Name": value, … }
+      const payload = recentData.reduce((o,e) => {
+        o[e.parameter] = parseFloat(e.value);
+        return o;
+      }, {});
+  
+      fetch("severity_update.php", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(payload)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error(res.statusText);
+        return res.json();
+      })
+      .then(data => {
+        const avgs = data.averages || {};
+        // show each entered + avg
+        recentData.forEach(({parameter, value}) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${parameter}</td>
+            <td>${value}</td>
+            <td>${avgs[parameter] ?? 'N/A'}</td>
+          `;
+          table.appendChild(row);
+        });
+        loadingMsg.style.display = "none";
+      })
+      .catch(err => {
+        console.error("Fetch error:", err);
+        loadingMsg.innerText = "❌ Failed to load results.";
+      });
+    }
+  </script>
+  
+</body>
+</html>
